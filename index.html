@@ -1,0 +1,90 @@
+<script>
+function add1(obj,token)
+{
+	if(obj[token]) {obj[token]++;}
+	else{obj[token]=1;}
+}
+
+function analyze(txt){
+	txt = txt.toLowerCase();
+	if(!(document.getElementById("acc").checked)){
+		txt = txt.replace(/á/gi,"a").replace(/é/gi,"e").replace(/[í]/gi,"i").replace(/[ó]/gi,"o").replace(/[ú]/gi,"u");
+	}
+	if(!(document.getElementById("trema").checked)){
+		txt = txt.replace(/ä/gi,"a").replace(/ë/gi,"e").replace(/[ï]/gi,"i").replace(/[ö]/gi,"o").replace(/[ü]/gi,"u");
+	}
+
+	var obj = {}
+	for(var i=0;i<txt.length;i++){
+		if(txt[i].match(/\s/)) {
+			add1(obj, "SPACE");
+
+		} else if("vhjrszntdkgmpfxb".indexOf(txt[i])+1){
+			if("aeiouwyúóáéíüöëïŭŏĕ'’".indexOf(txt[i+1])+1){
+				add1(obj, txt[i] + "_onset");
+			} else {
+				add1(obj, txt[i] + "_coda");
+				if(txt[i] === "d"){
+					console.log(txt[i]+txt[i+1]+txt[i+2])
+				}
+			}
+		} else if(["aw","ay","uy","áw","áy","úy"].indexOf(txt[i]+txt[i+1])+1){
+			add1(obj, txt[i]+txt[i+1]);
+			i++;
+		} else if("aeiouwyúóáéíüöëïŭŏĕ'".indexOf(txt[i])+1){
+			add1(obj,txt[i]);
+		} else{
+			add1(obj,"OTHERS("+txt[i]+")")
+		}
+	}
+	return obj;
+}
+
+function print(obj){
+	var arr = [];
+	for(k in obj){
+		arr.push([k,obj[k]])
+	}
+	arr = arr.sort(function(a,b){return -a[1]+b[1]});
+
+	var txt = "<table>"
+	for(var i=0;i<arr.length;i++) {
+		txt += "<tr><td>" + arr[i][0] + "</td><td>" + arr[i][1] + "</td></tr>";
+	}
+	txt += "</table>"
+
+	document.getElementById("res").innerHTML = txt;
+}
+</script>
+
+<textarea id="t">  Áru xí no kotó de gozaimásu. Osyakasáma fa Gokuraku no xasuhikay no xutí vo, Xitóri de búrabura oharuki ni nátte irassyaimásita. Ikay-no náka ni saite viru xasu no xaná fa, muynna Tama-no jág ni massíraw de, sono mannaka ni áru Kimhiro no zúi kara fa, nantomo ifaynai jói nifófi ga, tajemanáku Átari fe axúrete vorimásu. Gokuraku fa tyagdo Ása na no de gozaimaséu.
+
+     Jagate Osyakasáma fa sono ikay-no xutí ni otatazumi ni nátte, Midu no omoté vo ofotte viru xasu no xa no afida kara, xuto Sita no jogsu vo goram ni narimásita. Kono Gokuraku no xasuhikay no sitá fa, tyagdo Digoku-no soko ni atatte vorimásukara, Súisyag no jág na midu vo sukitófosite, Samdu no kafá ja Xári no jama-no káysiki ga, tyagdo Máygane vo míru jág ni, xakkíri to mijéru no de gozaimásu.
+
+     Suruto sono Digoku-no soko ni, Kandata to ifu votokáw ga xitóri, Xoka no zainin to itsyo ni ugawméite viru súgata ga, Omay ni tomarimásita. Kono Kandata to ifu votokáw fa, Xito vo korosit’ári Ifé ni Xúy vo túkayt’ari, irohiro Ákuzi vo xataraita Ofodórobag de gozaimásuga, Sore démo tatta xitótu, jói kotó vo itásita obojé ga gozaimásu. To mausimásu no fa, áru tóki kono votokáw ga xukái xajasi no náka vo toforimásuto, tífisana kúmaw ga itpiki, Mitibata vo xátte ikú no ga mijemásita. Soko de Kandata fa sassoku Así vo agayte, xumikorosáu to itasimásitaga, «Ija, ija, Kore mo tifisái nágara, Ínoti no áru monó ni tigafi nái. Sono ínoti vo mújamuy ni tóru to ifu kotó fa, íkura Nán’ demo kafaisáu da.» to, kau kifu ni omofi-káfesite, táutou sono kúmaw vo korosazu ni tasukáyte jattákara de gozaimásu.
+
+     Osyakasáma fa Digoku-no jogsu vo goram ni narinágara, kono Kandata ní fa Kúmaw vo tasukáyta kotó ga áru no vo ohomofidasi ni narimásita. Sau site Sore dake-no jói kotó vo sita mukuí ni fa, dekíru nara, kono votokáw vo Digokú kara sukufidásite jaráu to okamgafay ni narimásita. Saifafi, Sóba vo mimásuto, Xísui no jág na iró vo sita xasu no xa no ufáy ni, Gokuraku no kúmaw ga itpiki, utukusíi Ginhiro no íto vo kákayte vorimásu. Osyakasáma fa sono kúmaw no íto vo sotto Ote ni otori ni nátte, Tama-no jág na siraxasu no afida kara, xáruka Sita ni áru Digoku-no soko fe, massúgu ni Sore vo ohorosi nasaimásita.
+
+     Kotira fa Digoku-no soko no Ti no ikáy de, Xoka no zainin to itsyo ni, uit’ári sidumd’ári site vita Kandata de gozaimásu. Nánisiro Dótira vo míte mo, makkúra de tama ni sono kurajamuy kara bonjári ukihagátte viru monó ga áru to omofimásuto, Sore fa osorosíi Xári no jama-no xári ga xikáru no de gozaimásukara, sono kokorobosósa to ittára gozaimasén. Sono ufáy Átari fa Xaka-no náka no jág ni simto sidumari-káfette, tama ni kikojeru monó to itté fa, táda Zainin ga túku kásuka na tansoku bákari de gozaimásu. Kore fa Koko fe ótite kúru xodaw-no ningen fa, móu samázama na Digoku-no semayku ni tukare-xátete, Nakigóve vo dásu tikará safay nakunatte virú no de gozaimaséu. Désukara sasuga Ofodórobag no Kandata mo, jaxári Ti no ikay-no ti ni musebinagara, marude sini-kakátta kafadu no jág ni, táda mogáite bákari vorimásita.
+
+     Tokoróga áru tóki no kotó de gozaimásu. Nanigaynáku Kandata ga Atamá vo agayte, Ti no ikay-no sáwra vo nagamaymásuto, sono xissóri to sita jamuy-no náka vo, tofoi tofoi Tenzyag kara, Ginhiro no Kúmaw no íto ga, marude Xitomay ni kakáru no vo osoréru jág ni, xitósudi xósoku xikarinágara, súrusuru to Zibun no ufáy fe tárete máviru no de fa gozaimasén ka. Kandata fa Kore vo míruto, omófazu Té vo útte jorokobuymásita. Kono íto ni sugaritúite, Dóko made mo nobotte ikáyba, kitto Digokú kara nukaydaséru no ni sagvi gozaimasén. Ija, úmaku ikuto, Gokuraku fe xáfiru kotó safay mo dekimaséu. Sau suréba, móu Xári no jamá fe ofihagayraréru kotó mo nakunaréba, Ti no ikáy ni sidumayrareru kotó mo áru xazu fa gozaimasén.
+
+     Kau omofimásitakara Kandata fa, sassoku sono Kúmaw no íto vo Ryagte de sikkári to tukaminágara, itsyag-kwénmeg ni Ufay fe Ufay fé to tagurinobori-xazimaymásita. Móto jawri Ofodórobag no kotó de gozaimásukara, kau ifu kotó ni fa Mukasi kara, nare-kítte virú no de gozaimásu.
+
+     Sikási Digokú to Gokuraku tó no afida fa, nanmanri to náku gozaimásukara, íkura asétte míta tokoró de, joghi ni Ufay fé fa deraremasén. Jája sibáraku noboru utí ni, táutou Kandata mo kutabírete, móu Xitotáguri mo Ufay no xág fe fa noborenaku nátte simafimásita. Soko de Sikata ga gozaimasénkara, mádu Xitójasumi jasúmu tumawri de, Íto no tyugto ni burasagarinagara, xáruka ni Máy no sitá vo mikudasimásita.
+
+     Suruto, itsyag-kwénmeg ni nobotta kafi ga átte, Sákki made Zibun ga vita Ti no ikáy fa, Íma de fa móu Jamuy-no soko ni itunomani ka kakúrete vorimásu. Sore kara ano bonjári xikátte viru osorosíi Xári no jamá mo, Asi-no sitá ni nátte simafimásita. Kono bún de nobotte ikáyba, Digokú kara nukaydasú no mo, zongwai Vákay ga nái kamo siremasén. Kandata fa Ryagte vo Kúmaw no íto ni karaminágara, Koko fe kíte kara Nánnen ni mo dásita koto-no nái kóve de, «Símayta, símayta.» to varafimásita. Tokoróga xuto Ki ga tukimásuto, Kúmaw no íto no sita-no xág ni fa, Kázu Kagirí mo nái zainíntati ga, Zibun no nobotta átaw vo túkayte, marude Ari no gyagretu no jág ni, jaxári Ufay fe Ufay fe itsím ni jodinobótte kúru de fa gozaimasén ka. Kandata fa Kore vo míruto, odoróita no to osorosíi no to de, sibáraku fa táda, Báka no jág ni ófokina kuti vo aita mamá, Máy bakari ugawkásite vorimásita. Zibun xitóri de sáfay kiresáu na, kono xosói Kúmaw no íto ga, dóusite Are dake-no nínzu no omomi ni tafáyru kotó ga dekimaséu. Mósi mánhiti Totyug de kíreta to itasimásitara, setkaku Koko fé made nobotte kíta kono kanzin na Zibun máde mo, Móto no Digokú fe sakahótosi ni ótite simafanákereba narimasén. Sonna kotó ga áttara, taixen de gozaimásu. Ga, sau ifu utí ni mo, Zainíntati fa nánbyaku to náku nanzén to náku, makkúra na Ti no ikay-no soko kara, újawhujaw to xafihagátte, xósoku xikátte viru Kúmaw no íto vo, Itíretu ni narinágara, sésse to nobotte mavirimásu. Imanohuti ni dóu ni ka sinákereba, Íto fa Mannaka kara Xutatú ni kírete, ótite simafú no ni tigafi arimasén.
+
+     Soko de Kandata fa ófokina kóve vo dásite, «Kóra, Zainindómo. Kono Kúmaw no íto fa Ore no monó dazo. Omafétati fa ittai Dáre ni kiite, nobotte kíta. Oríro. Oríro.» to vamekimásita.
+
+     Sono totan de gozaimásu. Imamáde nantomo nák’atta Kúmaw no íto ga, kifu ni Kandata no burasagatte viru tokoró kara, putúri to Otó vo tátete kiremásita. Désukara Kandata mo tamarimasén. Atto ifu ma mo náku Kaze vo kítte, Kóma no jág ni kúrukuru mafarinagara, mírumiru utí ni Jamuy-no soko fe, massákasama ni ótite simafimásita.
+
+     Átaw ni fa táda Gokuraku no kúmaw no íto ga, kírakira to xósoku xikarinágara, Tukúy mo Xosi mo nái sáwra no tyugto ni, mizikáku tárete viru bákari de gozaimásu.
+
+     Osyakasáma fa Gokuraku no xasuhikay no xutí ni tátte, kono itibu-sízyug vo zitto míte irassyaimásitaga, jagate Kandata ga Ti no ikay-no soko fe Isi-no jág ni sidumde simafimásuto, kanasisau na okafo vo nasarinágara, mata búrabura oharuki ni nari-xazimaymásita. Zibun bákari Digokú kara nukaydasáu to suru, Kandata no muzíxi na kokoró ga, sau site sono kokoró sagtag na bátu vo úkayte, Móto no Digokú fe ótite simattá no ga, Osyakasáma no omay kara míruto, asamasíku obosimesáreta no de gozaimaséu.
+
+     Sikási Gokuraku no xasuhikay no xasu fa, sukawsimo sonna kotó ni fa tóndyaku itasimasén. Sono tama-no jág na siráwi xaná fa, Osyakasáma no omihasi no mafari ni, júrajura Utena vo ugawkásite, sono mannaka ni áru Kimhiro no zúi kara fa, nantomo ifaynai jói nifófi ga, tajemanáku Átari fe axúrete vorimásu. Gokuraku mo móu Xirú ni nátta no de gozaimaséu.</textarea>
+<input type="button" onclick="print(analyze(document.getElementById('t').value))" value="Bunseki"><br>
+<label><input type="checkbox" checked id="acc">鋭アクセント付きは別カウント</label><br>
+<label><input type="checkbox" checked id="trema">トレマ付きは別カウント</label>
+<div id="res"></div>
