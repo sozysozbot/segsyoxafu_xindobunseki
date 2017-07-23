@@ -1,0 +1,2 @@
+# segsyoxafu_xindobunseki
+Segsyoxafuで書かれた文章の頻度分析をします
