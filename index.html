@@ -21,11 +21,16 @@ function analyze(txt){
 
 		} else if("vhjrszntdkgmpfxb".indexOf(txt[i])+1){
 			if("aeiouwyúóáéíüöëïŭŏĕ'’".indexOf(txt[i+1])+1){
-				add1(obj, txt[i] + "_onset");
+				if((document.getElementById("onset_coda").checked)){
+					add1(obj, txt[i] + "_onset");
+				} else {
+					add1(obj, txt[i]);
+				}
 			} else {
-				add1(obj, txt[i] + "_coda");
-				if(txt[i] === "d"){
-					console.log(txt[i]+txt[i+1]+txt[i+2])
+				if((document.getElementById("onset_coda").checked)){
+					add1(obj, txt[i] + "_coda");
+				} else {
+					add1(obj, txt[i]);
 				}
 			}
 		} else if(["aw","ay","uy","áw","áy","úy"].indexOf(txt[i]+txt[i+1])+1){
@@ -86,5 +91,6 @@ function print(obj){
      Sikási Gokuraku no xasuhikay no xasu fa, sukawsimo sonna kotó ni fa tóndyaku itasimasén. Sono tama-no jág na siráwi xaná fa, Osyakasáma no omihasi no mafari ni, júrajura Utena vo ugawkásite, sono mannaka ni áru Kimhiro no zúi kara fa, nantomo ifaynai jói nifófi ga, tajemanáku Átari fe axúrete vorimásu. Gokuraku mo móu Xirú ni nátta no de gozaimaséu.</textarea>
 <input type="button" onclick="print(analyze(document.getElementById('t').value))" value="Bunseki"><br>
 <label><input type="checkbox" checked id="acc">鋭アクセント付きは別カウント</label><br>
-<label><input type="checkbox" checked id="trema">トレマ付きは別カウント</label>
+<label><input type="checkbox" checked id="trema">トレマ付きは別カウント</label><br>
+<label><input type="checkbox" checked id="onset_coda">onsetとcodaは別カウント</label><br>
 <div id="res"></div>
